@@ -17,8 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterChat',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.pink,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+              secondary: Colors.deepPurple, brightness: Brightness.light)),
       home: const AuthScreen(),
     );
   }
