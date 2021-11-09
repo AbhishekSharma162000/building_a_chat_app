@@ -39,7 +39,7 @@ class _AuthScreenState extends State<AuthScreen> {
           'email': email,
         });
       }
-    } on PlatformException catch (err) {
+    } on FirebaseAuthException catch (err) {
       var message = 'An error occurred, please check your credentials!';
 
       if (err.message != null) {
@@ -52,16 +52,8 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
-    } on FirebaseAuthException catch (err) {
-      var message = 'An error occurred, please check your credentials!';
-
-      if (err.message != null) {
-        message = err.message!;
-      }
-      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-        content: Text(message),
-        backgroundColor: Theme.of(ctx).errorColor,
-      ));
+    } catch (err) {
+      print(err);
       setState(() {
         _isLoading = false;
       });
