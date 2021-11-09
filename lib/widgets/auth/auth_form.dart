@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  const AuthForm({Key? key, required this.submitFn}) : super(key: key);
+  const AuthForm({Key? key, required this.submitFn, required this.isLoading})
+      : super(key: key);
 
-  final void Function(
-    String email,
-    String password,
-    String userName,
-    bool isLogin,
-  ) submitFn;
+  final bool isLoading;
+  final void Function(String email, String password, String username,
+      bool isLogin, BuildContext ctx) submitFn;
 
   @override
   _AuthFormState createState() => _AuthFormState();
@@ -27,7 +25,8 @@ class _AuthFormState extends State<AuthForm> {
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formkey.currentState!.save();
-      widget.submitFn(_userEmail, _userPassword, _userName, _isLogin);
+      widget.submitFn(_userEmail, _userPassword.trim(), _userName.trim(),
+          _isLogin, context);
     }
   }
 
@@ -93,23 +92,26 @@ class _AuthFormState extends State<AuthForm> {
                 const SizedBox(
                   height: 12,
                 ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.pink,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                    onPressed: _trySubmit,
-                    child: Text(_isLogin ? 'Login' : 'Signup')),
-                TextButton(
-                    style: TextButton.styleFrom(primary: Colors.pink),
-                    onPressed: () {
-                      setState(() {
-                        _isLogin = !_isLogin;
-                      });
-                    },
-                    child: Text(_isLogin
-                        ? 'Create new account'
-                        : 'I already have an account'))
+                if (widget.isLoading) const CircularProgressIndicator(),
+                if (!widget.isLoading)
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.pink,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20))),
+                      onPressed: _trySubmit,
+                      child: Text(_isLogin ? 'Login' : 'Signup')),
+                if (!widget.isLoading)
+                  TextButton(
+                      style: TextButton.styleFrom(primary: Colors.pink),
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      },
+                      child: Text(_isLogin
+                          ? 'Create new account'
+                          : 'I already have an account'))
               ],
             ),
           ),
