@@ -52,8 +52,16 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
-    } catch (err) {
-      print('This is error + $err');
+    } on FirebaseAuthException catch (err) {
+      var message = 'An error occurred, please check your credentials!';
+
+      if (err.message != null) {
+        message = err.message!;
+      }
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text(message),
+        backgroundColor: Theme.of(ctx).errorColor,
+      ));
       setState(() {
         _isLoading = false;
       });
