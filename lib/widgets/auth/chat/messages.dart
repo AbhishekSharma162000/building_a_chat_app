@@ -19,9 +19,10 @@ class Messages extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
+
         final chatDocs = chatSnapshot.data!.docs;
         final FirebaseAuth auth = FirebaseAuth.instance;
-        final User? user;
+        User? user;
         user = auth.currentUser;
 
         if (user != null) {
