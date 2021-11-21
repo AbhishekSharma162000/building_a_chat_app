@@ -33,6 +33,7 @@ class Messages extends StatelessWidget {
                     message: chatDocs[index]['text'],
                     isMe: chatDocs[index]['userId'] == user!.uid,
                     userName: chatDocs[index]['username'],
+                    userImage: chatDocs[index]['userImage'],
                     key: ValueKey(chatDocs[index].id),
                   ));
         } else {
